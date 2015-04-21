@@ -10,3 +10,17 @@ describe('elasticsearch connector', function(){
     });
   });
 });
+describe('elasticsearch private function', function(){
+  var cn;
+  before(function(){
+    cn = getConnector();
+  });
+  describe('build filter option', function(){
+    it('validate filter result', function(done){
+      var option = cn.buildSearch('test', null);
+      expect(option.index).not.to.be.null;
+      expect(option.type).to.equal('test');
+      done();
+    });
+  });
+});

@@ -1,4 +1,7 @@
 module.exports = require('should');
+var chai = require('chai');
+global.expect = chai.expect;
+
 var DataSource = require('loopback-datasource-juggler').DataSource;
 
 var config = require('rc')('loopback', {test: {elasticsearch:{}}}).test.elasticsearch;
@@ -11,6 +14,7 @@ if (process.env.CI) {
 		type: 'demo'
 	};
 }
+var es = require('../lib/elasticsearch');
 
 global.getDataSource = global.getSchema = function(customConfig) {
 	var db = new DataSource(require('../'), customConfig || config);
@@ -19,3 +23,9 @@ global.getDataSource = global.getSchema = function(customConfig) {
 	};
 	return db;
 }
+
+global.getConnector = function(){
+	var db = new DataSource(require('../'), config);
+  return new es.Elasticsearch(config, db);
+}
+
